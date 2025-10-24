@@ -1,6 +1,6 @@
 Package: significantEarthquakes
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Working With NOAA Significant Earthquakes Data
 Version: 0.1.0
 Authors@R: c(
     person(
@@ -9,9 +9,14 @@ Authors@R: c(
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
+Description: A package that can be used to clean and visualize the National Oceanic and Atmospheric Administration's 
+    significant earthquakes database. Significant earthquakes are those that meet at least one of the following criteria.
+    Cause moderate damage costing $1 million or more, results in 10 or more deaths, has a magnitude of 7.5 or greater, has
+    a modifed Mercali intensity of X or greater, or the earthquake generated a tsunami. Earthquakes are recoreded beginning
+    in 2150 B.C. so data cleaning in this package accounts for era (BC or AD).
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
+Depends: 
+    R (>= 3.5)
