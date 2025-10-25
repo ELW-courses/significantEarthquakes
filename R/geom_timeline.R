@@ -3,7 +3,7 @@
 #  geom for plotting significant earthquake data                       #
 #  Author :  EL Williams                                               #
 #  Project:  Coursera - Building Data Visualization Tools - Capstone   #
-#  Date   :  2025-10-18                                                #
+#  Date   :  2025-10-25                                                #
 #                                                                      #
 ########################################################################
 
@@ -83,8 +83,6 @@ geom_timeline <- function(mapping = NULL,
 #' @title GeomTimeline
 #' @import ggplot2
 #' @importFrom grid segmentsGrob pointsGrob gpar
-#' @description Creates a new `Geom*` to show timeline of significant earthquakes
-#' @details The `Geom*` is created by using a cleaned data frame of earthquake data and plotting the
 #'
 #' @param GeomTimeline `Geom*` name created to plot earthquake data
 #'

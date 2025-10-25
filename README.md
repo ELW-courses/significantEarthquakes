@@ -103,3 +103,16 @@ Argentina_data %>%
   ggplot() +
   geom_timeline(aes(x = Date, size = Magnitude))
 ```
+
+Text lables can be added to the timeline plot by uding
+`geom_timeline_labels()`. This `geom_*` requires the column to use for
+labels to be specfied. A maximum number of earthquakes to label based on
+magnitude can be set as long as the size aesthetic is set to Magnitude.
+
+``` r
+# Adding labels to the 10 strongest earthquakes in Argentina
+Argentina_data %>%
+  ggplot() +
+  geom_timeline(aes(x = Date, color = Magnitude)) +
+  geom_timeline(aes(x = Date, size = Magnitude), n_max = 10)
+```

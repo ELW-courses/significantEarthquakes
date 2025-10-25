@@ -17,9 +17,6 @@ GeomTimeline
 point-style graphic showing a timeline of earthqaukes
 }
 \description{
-Creates a new `Geom*` to show timeline of significant earthquakes
-}
-\details{
-The `Geom*` is created by using a cleaned data frame of earthquake data and plotting the
+GeomTimeline
 }
 \keyword{datasets}
