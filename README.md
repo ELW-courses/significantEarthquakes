@@ -52,15 +52,15 @@ quake_data <- eq_clean_data(df = earthquakes)
 ```
 
 An additional function, `eq_location_clean()`, is provided to extract
-the Country and State in which the earthquake occurred from the location
-data column.
+the Country and Locale in which the earthquake occurred from the
+location data column.
 
 ``` r
 quake_data <- eq_location_clean(eq_date)
 ```
 
 Before plotting earthquake data, a cleaned data frame can be filtered
-using the `eq_filtering` function. This function provides optional
+using the `eq_filtering()` function. This function provides optional
 filtering by country in which the earthquake occurred, minimum date for
 plotting, and maximum date for plotting. The user can optionally supply
 additional columns to include in the filtered data output for ease when
@@ -75,4 +75,31 @@ Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", MinDat
 
 # Selection of earthquakes within Argentina with magnitude
 Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", groupingBy = c("Magnitude"))
+```
+
+## Earthquake timeline
+
+Significant earthquakes can be plotted on a timeline showing when
+earthquakes occurred by using `geom_timeline()`. This `geom_*` requires
+that earthquake data be cleaned using `eq_clean_data()` and
+`eq_location_clean` so that a date column and country column are
+present. Data can futher be filtered using `eq_filtering()` to limit
+data to a specific country, date range, and user-specified data columns.
+
+``` r
+# Plotting cleaned data:
+quake_clean %>%
+  ggplot() +
+  geom_timeline(aes(x = Date)))
+
+# Plotting earthquakes in Australia colored by magnitude:
+quake_clean %>%
+  filter(Country == "Australia") %>%
+  ggplot() +
+  geom_timeline(aes(x = Date, color = Magnitude))
+
+# Plotting filtered data with points sized by magnitude
+Argentina_data %>%
+  ggplot() +
+  geom_timeline(aes(x = Date, size = Magnitude))
 ```

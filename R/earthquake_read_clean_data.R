@@ -17,6 +17,7 @@
 #' noting if year is  BC or AD, and making sure latitude and longitude are numeric columns.
 #'
 #' @param filepath file path and name of file to load
+#'
 #' @param df loaded data to work with
 #'
 #' @return tibble of earthquake data
@@ -79,7 +80,6 @@ eq_clean_data <- function(filepath = NA, df = NA){
 #' extracts the country from the location column into a new 'Country' column. Additionally, a 'Locale' column is
 #' created for within country location specification if applicable.
 #' Special case handling currently includes: United Kingdom, United States
-#'
 #'
 #' @param df data frame containing earthquake data
 #'
