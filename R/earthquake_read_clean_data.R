@@ -1,6 +1,6 @@
 ########################################################################
 #                                                                      #
-#  Functions for loading and cleaning earthquake data                  #
+#  Functions for loading, cleaning, and filtering earthquake data      #
 #  Author :  EL Williams                                               #
 #  Project:  Coursera - Building Data Visualization Tools - Capstone   #
 #  Date   :  2025-10-24                                                #
@@ -10,7 +10,7 @@
 #' @title eq_clean_data
 #' @import readr
 #' @import dplyr
-#' @description load and clean earthquake data
+#' @description Load and Clean Earthquake Data
 #' @details This function takes either a file path with file name or already loaded data frame object. If a file path
 #' is provided, the existence of a file at the specified path is checked, then the file is loaded and cleaned. If an
 #' already loaded data frame object is provided, the data is cleaned. Data cleaning includes creating a date column,
@@ -26,8 +26,8 @@
 #' quake_data <- eq_clean_data(filepath = "inst/extdata/earthquakes.tsv")
 #'
 #' #Working with loaded data
-#' quake_data <- eq_clean_data(df = earthquakes)
-#' head(quake_date)
+#' quake_data <- eq_clean_data(earthquakes)
+#' head(quake_data)
 #' }
 #' @export
 #'
@@ -56,10 +56,12 @@ eq_clean_data <- function(filepath = NA, df = NA){
                   Age = as.factor(ifelse(Year < 0, "BC", "AD")),
                   Date = paste(Yr, ifelse(is.na(Mo), 01, Mo), ifelse(is.na(Dy), 01, Dy), sep = "-"), .before = Year) %>%
     dplyr::mutate(Date = as.Date(Date, format = "%Y-%m-%d")) %>%
-    # Remove `Search Parameters`, Yr column
+    # Remove Yr column, remove any odd columns due to loading
     dplyr::select(-Yr) %>%
     filter(!is.na(Date)) %>%
-    # Set column types
+    # Rename columns for clarity
+    rename("Month" = Mo, "Day" = Dy, "Hour" = Hr,  "Minute" = Mn, "Seconds" = Sec,
+           "Tsunami" = Tsu, "volcano" = Vol, "Magnitude" = Mag) %>% # Set column types
     dplyr::mutate(across(any_of(c("Latitude", "Longitude")), ~as.numeric(as.character(.))))
   #
   return(eq_data)
@@ -70,9 +72,14 @@ eq_clean_data <- function(filepath = NA, df = NA){
 #
 #' @title eq_location_clean
 #' @import tidyverse
-#' @description set Location as country
+#' @import stringr
+#' @import maps
+#' @description Addition of Country to Earthquake Data
 #' @details This function takes an earthquake data set, checks for the existence of a Location*Name columns, then
-#' extracts the country from the location column. The country is saved as the Location*Name data.
+#' extracts the country from the location column into a new 'Country' column. Additionally, a 'Locale' column is
+#' created for within country location specification if applicable.
+#' Special case handling currently includes: United Kingdom, United States
+#'
 #'
 #' @param df data frame containing earthquake data
 #'
@@ -80,7 +87,7 @@ eq_clean_data <- function(filepath = NA, df = NA){
 #' @examples
 #' \dontrun{
 #' quake_data <- eq_location_clean(eq_date)
-#' head(quake_date)
+#' head(quake_data)
 #' }
 #' @export
 #'
@@ -93,7 +100,98 @@ eq_location_clean <- function(df){
   }
   # Extract country from location name
   df <- df %>%
-    mutate(Country = stringr::str_to_title(sub(":.*", replacement = "", !!sym(matching_column))),
-           State = stringr::str_to_title(sub(".:*", replacement = "", !!sym(matching_column))))
+    mutate(Country = case_when(
+      #United Kingdom
+      str_detect(!!sym(matching_column), regex("United Kingdom", ignore_case = TRUE)) ~ str_trim(str_extract(!!sym(matching_column), "(?<=:)[^:]+(?=:)")),
+      str_detect(!!sym(matching_column), regex("Uk:|UK:", ignore_case = TRUE)) ~ "England", #Special case
+      #United States
+      str_detect(!!sym(matching_column), regex(sprintf("\\b(%s)\\b", paste(setdiff(state.name, "Georgia"), collapse = "|")), ignore_case = TRUE)) ~ "United States",
+      # Everything else
+      TRUE ~ str_trim(sub(":.*", replacement = "", !!sym(matching_column)))), .before = !!sym(matching_column)) %>%
+    mutate(Locale = case_when(
+      Country == "United States" ~ str_trim(sub(":.*", replacement = "", !!sym(matching_column))),
+      TRUE ~ str_trim(str_extract(!!sym(matching_column), "(?<=:).+"))), .before = !!sym(matching_column)) %>%
+    mutate(Country = stringr::str_to_title(Country), Locale = str_to_title(Locale))
   return(df)
+}
+#
+#
+#
+#' @title eq_filtering
+#' @import tidyverse
+#' @import stringr
+#' @description Filter Earthquake Data to Desired Country and Data Columns
+#' @details This function takes a cleaned earthquake data set and filters data to optional date ranges and country
+#' of occurrence. An optional 'groupingBy' parameter allows for the selection of specified data columns in output.
+#'
+#'
+#' @param df data frame containing earthquake data
+#'
+#' @param MinDate optional minimum date string of data to include
+#'
+#' @param MaxDate optional maximum date string of data to include
+#'
+#' @param SelectedCountry optional name of country to filter data by
+#'
+#' @param groupingBy optional list of other data columns to include
+#'
+#' @return tibble of filtered earthquake data
+#' @examples
+#' \dontrun{
+#' # Selection of earthquakes within Argentina
+#' Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina")
+#'
+#' # Selection of earthquakes within Argentina since 1930
+#' Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", MinDate = "1930-01-01")
+#'
+#' # Selection of earthquakes within Argentina with magnitude
+#' Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", groupingBy = c("Magnitude"))
+#' }
+#' @export
+#'
+
+eq_filtering <- function(df, MinDate = NULL, MaxDate = NULL, SelectedCountry = NULL, groupingBy = NULL){
+  # starting checks
+  stopifnot(
+    is.data.frame(df)
+  )
+  #
+  # Get date bounds from data if not provided
+  if (is.null(MinDate) | is.null(MaxDate)) {
+    date_range <- range(df$Date, na.rm = TRUE)
+    if (is.null(MinDate)) MinDate <- date_range[1]
+    if (is.null(MaxDate)) MaxDate <- date_range[2]
+  }
+  # Convert dates with error handling
+  min_date <- suppressWarnings(as.POSIXct(MinDate))
+  max_date <- suppressWarnings(as.POSIXct(MaxDate))
+  stopifnot(
+    !is.na(min_date),
+    !is.na(max_date),
+    min_date <= max_date
+  )
+  #
+  # Validate groupingBy columns
+  if (!is.null(groupingBy)) {
+    valid_columns <- names(df)
+    invalid_cols <- setdiff(groupingBy, valid_columns)
+    stopifnot(length(invalid_cols) == 0)
+  }
+  ## Clean data to plot
+  data_to_plot <- df %>%
+    # Select date and columns to plot by
+    dplyr::select(Date, Country, Locale, any_of(groupingBy)) %>%
+    # Filter to specified date range and country
+    filter(Date >= min_date & Date <= max_date) %>%
+    filter(if(!is.null(SelectedCountry)){
+      Country == paste(stringr::str_to_title(SelectedCountry))
+    } else {
+      TRUE
+    }) %>%
+    # Modify for plot aesthetics
+    mutate(across(any_of(groupingBy), factor)) %>%
+    drop_na(all_of(groupingBy))
+  #
+  return(data_to_plot)
+  #
 }

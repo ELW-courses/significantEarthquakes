@@ -15,7 +15,7 @@ eq_clean_data(filepath = NA, df = NA)
 tibble of earthquake data
 }
 \description{
-load and clean earthquake data
+Load and Clean Earthquake Data
 }
 \details{
 This function takes either a file path with file name or already loaded data frame object. If a file path
@@ -29,7 +29,7 @@ noting if year is  BC or AD, and making sure latitude and longitude are numeric 
 quake_data <- eq_clean_data(filepath = "inst/extdata/earthquakes.tsv")
 
 #Working with loaded data
-quake_data <- eq_clean_data(df = earthquakes)
-head(quake_date)
+quake_data <- eq_clean_data(earthquakes)
+head(quake_data)
 }
 }

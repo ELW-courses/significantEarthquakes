@@ -13,15 +13,17 @@ eq_location_clean(df)
 tibble of earthquake data
 }
 \description{
-set Location as country
+Addition of Country to Earthquake Data
 }
 \details{
 This function takes an earthquake data set, checks for the existence of a Location*Name columns, then
-extracts the country from the location column. The country is saved as the Location*Name data.
+extracts the country from the location column into a new 'Country' column. Additionally, a 'Locale' column is
+created for within country location specification if applicable.
+Special case handling currently includes: United Kingdom, United States
 }
 \examples{
 \dontrun{
 quake_data <- eq_location_clean(eq_date)
-head(quake_date)
+head(quake_data)
 }
 }

@@ -35,7 +35,7 @@ library(significantEarthquakes)
 Data pulled from the website on October 23, 2025 is provided in the
 package and is used for all examples.
 
-## Data cleaning
+## Data cleaning and filtering
 
 A function, `eq_clean_data()`, is provided for basic cleaning of the raw
 earthquake data. Either a file path can be specified, in which case the
@@ -43,13 +43,12 @@ file is loaded then cleaned, or a currently loaded data object can be
 specified for cleaning.
 
 ``` r
+library(significantEarthquakes)
 #Loading file
 quake_data <- eq_clean_data(filepath = "inst/extdata/earthquakes.tsv")
 
 #Working with loaded data
 quake_data <- eq_clean_data(df = earthquakes)
-
-head(quake_date)
 ```
 
 An additional function, `eq_location_clean()`, is provided to extract
@@ -58,5 +57,22 @@ data column.
 
 ``` r
 quake_data <- eq_location_clean(eq_date)
-head(quake_date)
+```
+
+Before plotting earthquake data, a cleaned data frame can be filtered
+using the `eq_filtering` function. This function provides optional
+filtering by country in which the earthquake occurred, minimum date for
+plotting, and maximum date for plotting. The user can optionally supply
+additional columns to include in the filtered data output for ease when
+plotting.
+
+``` r
+# Selection of earthquakes within Argentina
+Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina")
+
+# Selection of earthquakes within Argentina since 1930
+Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", MinDate = "1930-01-01")
+
+# Selection of earthquakes within Argentina with magnitude
+Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", groupingBy = c("Magnitude"))
 ```
