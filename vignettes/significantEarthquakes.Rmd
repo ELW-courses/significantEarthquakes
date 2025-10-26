@@ -14,13 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Installation
+## Loading
 
-You can install this package from github using the following command:
+You can load this package after install using the following command:
 
 ```{r}
-library(devtools)
-devtools::install_github('ELW-courses/significantEarthquakes', build_vignettes = TRUE)
 library(significantEarthquakes)
 ```
 
