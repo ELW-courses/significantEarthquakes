@@ -66,6 +66,7 @@ quake_clean \%>\%
 quake_clean \%>\%
  filter(Country == "Australia") \%>\%
  ggplot() +
- geom_timeline(aes(x = Date, color = Magnitude))
+ geom_timeline(aes(x = Date, color = Magnitude))+
+ geom_timeline_labels(aes(x = Date, label = Locale, size = Magnitude), n_max = 10)
 }
 }

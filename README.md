@@ -19,7 +19,7 @@ Database. NOAA National Centers for Environmental Information.
 
 Downloading data from the database results in a *.tsv* file. Once the
 raw file is located where the user can easily locate and load the data
-file, this package can be used to clean the data.
+file, this package can be used to clean and plot the data.
 
 ## Installation
 
@@ -114,10 +114,10 @@ magnitude can be set as long as the size aesthetic is set to Magnitude.
 Argentina_data %>%
   ggplot() +
   geom_timeline(aes(x = Date, color = Magnitude)) +
-  geom_timeline(aes(x = Date, size = Magnitude), n_max = 10)
+  geom_timeline_labels(aes(x = Date, label = Locale, size = Magnitude), n_max = 10)
 ```
 
-A additional function has been supplied for assitance in consistent
+A additional function has been supplied for assistance in consistent
 formatting of timeline plots. Once an existing plot is created,
 `pretty_timeline()` can be used to format axes titles and text and scale
 axes based on data plotted.
@@ -144,7 +144,7 @@ pretty_timeline(df = quake_data, plot = ArgPlot, timeline_y = TRUE)
 
 Significant earthquakes can be mapped to show where earthquakes occurred
 by using `eq_map()`. This function requires that earthquake data be
-cleaned using `eq_clean_data()` and `eq_location_clean` so that at
+cleaned using `eq_clean_data()` and `eq_location_clean()` so that at
 minimum location columns (Latitude and Longitude) and any annotation
 columns are present. The column to annotate by can be specified using
 *annot_col*.

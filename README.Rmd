@@ -23,7 +23,7 @@ The **significantEarthquakes** package was developed for the capstone course of 
 Earthquake data originates from the National Oceanic and Atmospheric Administration's earthquakes database: 
 National Geophysical Data Center / World Data Service (NGDC/WDS): NCEI/WDS Global Significant Earthquake Database. NOAA National Centers for Environmental Information. doi:10.7289/V5TD9V7K
 
-Downloading data from the database results in a *.tsv* file. Once the raw file is located where the user can easily locate and load the data file, this package can be used to clean the data.
+Downloading data from the database results in a *.tsv* file. Once the raw file is located where the user can easily locate and load the data file, this package can be used to clean and plot the data.
 
 ## Installation
 
@@ -97,9 +97,9 @@ Text lables can be added to the timeline plot by using `geom_timeline_labels()`.
 Argentina_data %>%
   ggplot() +
   geom_timeline(aes(x = Date, color = Magnitude)) +
-  geom_timeline(aes(x = Date, size = Magnitude), n_max = 10)
+  geom_timeline_labels(aes(x = Date, label = Locale, size = Magnitude), n_max = 10)
 ```
-A additional function has been supplied for assitance in consistent formatting of timeline plots. Once an existing plot is created, `pretty_timeline()` can be used to format axes titles and text and scale axes based on data plotted.
+A additional function has been supplied for assistance in consistent formatting of timeline plots. Once an existing plot is created, `pretty_timeline()` can be used to format axes titles and text and scale axes based on data plotted.
 
 ``` r
 quake_data <- eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
@@ -119,7 +119,7 @@ pretty_timeline(df = quake_data, plot = ArgPlot, timeline_y = TRUE)
 
 ## Earthquake mapping
 
-Significant earthquakes can be mapped to show where earthquakes occurred by using `eq_map()`. This function requires that earthquake data be cleaned using `eq_clean_data()` and `eq_location_clean` so that at minimum location columns (Latitude and Longitude) and any annotation columns are present. The column to annotate by can be specified using *annot_col*.
+Significant earthquakes can be mapped to show where earthquakes occurred by using `eq_map()`. This function requires that earthquake data be cleaned using `eq_clean_data()` and `eq_location_clean()` so that at minimum location columns (Latitude and Longitude) and any annotation columns are present. The column to annotate by can be specified using *annot_col*.
 
 ``` r
 eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%

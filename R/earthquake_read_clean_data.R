@@ -194,7 +194,7 @@ eq_filtering <- function(df, MinDate = NULL, MaxDate = NULL, SelectedCountry = N
     }) %>%
     # Modify for plot aesthetics
     mutate(across(any_of(groupingBy), factor)) %>%
-    drop_na(all_of(groupingBy))
+    tidyr::drop_na(all_of(groupingBy))
   #
   return(data_to_plot)
   #
