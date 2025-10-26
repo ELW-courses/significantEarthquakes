@@ -1,0 +1,130 @@
+---
+title: "significantEarthquakes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{significantEarthquakes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Installation
+
+You can install this package from github using the following command:
+
+```{r}
+library(devtools)
+devtools::install_github('ELW-courses/significantEarthquakes', build_vignettes = TRUE)
+library(significantEarthquakes)
+```
+
+```{r, echo = FALSE}
+library(tidyverse)
+```
+
+
+# Package description
+
+The **significantEarthquakes** package provides functionality to work with earthquake data originating from the National Oceanic and Atmospheric Administration's earthquakes database: 
+National Geophysical Data Center / World Data Service (NGDC/WDS): NCEI/WDS Global Significant Earthquake Database. NOAA National Centers for Environmental Information. doi:10.7289/V5TD9V7K
+
+Downloading data from the database results in a *.tsv* file. Once the raw file is located where the user can easily locate and load the data file, this package can be used to clean the data, plot a timeline of earthquakes, and create leaflet maps of earthquake locations.
+
+## Included data
+The following data file is included within the package:
+```{r data files}
+cat(list.files(system.file("/extdata", package = 'significantEarthquakes')), sep = "\n")
+``` 
+This file was collected from the database in October 2025. 
+
+
+# Package functions
+
+## Data cleaning
+Two functions are provided to take raw NOAA data and return a clean data frame: `eq_clean_data` and `eq_location_clean`. 
+
+`eq_clean_data()` can work with an existing raw data file in the R environment or can read in a raw data file. Data is cleaned by creating a date column, noting if year is  BC or AD, and making sure latitude and longitude are numeric columns.
+
+```{r load clean}
+quake_data <- eq_clean_data(filepath = system.file("extdata","earthquakes.tsv", package = "significantEarthquakes"))
+head(quake_data)
+```
+
+
+`eq_location_clean()` further cleans the data by creating *Country* and *Locale* columns from the Location.Name data column to simplify in which country and location within the country an earthquake occurred. 
+
+```{r location clean}
+quake_clean <- eq_location_clean(quake_data)
+head(quake_clean)
+```
+
+
+The cleaned data can further be filtered to optional date ranges and country of occurrence specified by the user. The Locale and the Magnitude columns are maintained in the output An optional *groupingBy* parameter allows for the additional selection of specified data columns in output.
+
+```{r filtering}
+costa_rica <- eq_filtering(quake_clean, SelectedCountry = "Costa Rica", MinDate = "1980-01-01")
+head(costa_rica)
+```
+
+
+## Timelines
+Two `geoms_*` that can be used in conjunction with the `ggplot2` package to visualize the timeline of earthquake occurrence are provided: `geom_timeline` and `geom_timelinelabel`
+
+`geom_timeline` creates a timeline of earthquake occurrance. The timelines can be can be stratified by a factor variable, be formatted by color, point size, or alpha level based on user-specified data columns.
+
+``` {r timeline, eval = FALSE}
+costa_rica %>%
+ ggplot() +
+ geom_timeline(aes(x = Date))
+```
+![](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/CostaRica_timeline.png?raw=true)
+
+`geom_timelinelabel` is an additional layer for adding annotations to the earthquake timeline indicating location of earthquakes with the option to subset labels to the n_max largest earthquakes by magnitude.
+
+``` {r timeline labels, eval = FALSE}
+costa_rica %>%
+ ggplot() +
+ geom_timeline(aes(x = Date, color = Magnitude))+
+ geom_timeline_labels(aes(x = Date, label = Locale, size = Magnitude), n_max = 6)
+```
+![](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/CostaRica_timeline_labels.png?raw=true)
+
+A additional function has been supplied for assistance in consistent formatting of timeline plots. Once an existing plot is created, `pretty_timeline()` can be used to format axes titles and text and scale axes based on data plotted.
+
+``` {r pretty timeline, eval = FALSE}
+CR_plot <- costa_rica %>%
+  ggplot() +
+  geom_timeline(aes(x = Date, color = Magnitude))+
+  geom_timeline_labels(aes(x = Date, label = Locale, size = Magnitude), n_max = 6)
+
+pretty_timeline(df = costa_rica, plot = CR_plot, timeline_y = TRUE)
+```
+![](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/CostaRica_timeline_pretty.png?raw=true)
+
+## Mapping
+Function for mapping significant earthquakes to show where earthquakes occurred can be created by using `eq_map()`. This function requires that earthquake data be cleaned using `eq_clean_data()` and `eq_location_clean()` so that at minimum location columns (Latitude and Longitude) and any annotation columns are present. The column to annotate by can be specified using *annot_col*.
+
+`eq_map()` interactively maps (`leaflet`) earthquake epicenters and creates pop ups using the specified annotation column.
+
+```{r leaflet, eval = FALSE}
+quake_clean %>%
+ dplyr::filter(Country == "Costa Rica" & Date >= 1980) %>%
+ eq_map(annot_col = "Date")
+```
+![](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/CostaRica_leaflet.png?raw=true)
+
+A default pop up design including labels for "Location", "Magnitude" and "Total deaths" can be added in the leaflet map by first using `eq_create_label()` before `eq_map()`.
+
+``` {r popups, eval = FALSE}
+quake_clean %>%
+ dplyr::filter(Country == "Costa Rica" & Date >= 1980)%>%
+ dplyr::mutate(popup = eq_create_label(.)) %>%
+ eq_map(annot_col = "popup")
+```
+![](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/CostaRica_leaflet_popup.png?raw=true)
