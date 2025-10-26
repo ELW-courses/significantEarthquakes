@@ -30,12 +30,12 @@ file, this package can be used to clean and plot the data.
 
 ## Installation
 
-You can install and use the development version of
+You can install and load the development version of
 **significantEarthquakes** with:
 
 ``` r
-# install.packages("pak")
-pak::pak("ELW-courses/significantEarthquakes")
+library(devtools)
+install.packages("ELW-courses/significantEarthquakes")
 library(significantEarthquakes)
 ```
 

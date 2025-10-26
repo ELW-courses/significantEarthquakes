@@ -27,7 +27,6 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Imports: 
-    devtools,
     dplyr,
     ggplot2,
     htmltools,

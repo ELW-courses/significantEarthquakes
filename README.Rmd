@@ -32,11 +32,11 @@ Downloading data from the database results in a *.tsv* file. Once the raw file i
 
 ## Installation
 
-You can install and use the development version of **significantEarthquakes** with: 
+You can install and load the development version of **significantEarthquakes** with: 
 
 ``` r 
-# install.packages("pak")
-pak::pak("ELW-courses/significantEarthquakes")
+library(devtools)
+install.packages("ELW-courses/significantEarthquakes")
 library(significantEarthquakes)
 ```
 Data pulled from the website on October 23, 2025 is provided in the package and is used for all examples.
