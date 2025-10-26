@@ -100,7 +100,7 @@ eq_location_clean <- function(df){
   }
   # Extract country from location name
   df <- df %>%
-    mutate(Country = case_when(
+    dplyr::mutate(Country = case_when(
       #United Kingdom
       str_detect(!!sym(matching_column), regex("United Kingdom", ignore_case = TRUE)) ~ str_trim(str_extract(!!sym(matching_column), "(?<=:)[^:]+(?=:)")),
       str_detect(!!sym(matching_column), regex("UK:", ignore_case = TRUE)) ~ "England", #Special case
@@ -108,10 +108,10 @@ eq_location_clean <- function(df){
       str_detect(!!sym(matching_column), regex(sprintf("\\b(%s)\\b", paste(setdiff(state.name, "Georgia"), collapse = "|")), ignore_case = TRUE)) ~ "United States",
       # Everything else
       TRUE ~ str_trim(sub(":.*", replacement = "", !!sym(matching_column)))), .before = !!sym(matching_column)) %>%
-    mutate(Locale = case_when(
+    dplyr::mutate(Locale = case_when(
       Country == "United States" ~ str_trim(sub(":.*", replacement = "", !!sym(matching_column))),
       TRUE ~ str_trim(str_extract(!!sym(matching_column), "(?<=:).+"))), .before = !!sym(matching_column)) %>%
-    mutate(Country = stringr::str_to_title(.data$Country), Locale = str_to_title(.data$Locale))
+    dplyr::mutate(Country = stringr::str_to_title(.data$Country), Locale = str_to_title(.data$Locale))
   return(df)
 }
 #
