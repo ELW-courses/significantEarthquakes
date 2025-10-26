@@ -26,7 +26,8 @@ The base plot should already exist. This function allows for consistent plot for
 }
 \examples{
 \dontrun{
-Argentina_data <- eq_filtering(quake_clean, SelectedCountry = "Argentina", groupingBy = c("Deaths", "Magnitude"))
+Argentina_data <- eq_filtering(quake_clean,
+SelectedCountry = "Argentina", groupingBy = c("Deaths", "Magnitude"))
 Arg_plot <- Argentina_data \%>\%
 ggplot() +
 geom_timeline(aes(x = Date, color = Magnitude, y = Deaths))

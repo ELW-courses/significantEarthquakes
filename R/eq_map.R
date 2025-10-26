@@ -57,12 +57,12 @@ eq_map <- function(df, annot_col){
       <span style="font-size: 13px; font-weight: bold;">%s:</span>&nbsp;
       <span style="font-size: 12px;">%s</span>
       </div>',
-      annot_col, .[[annot_col]])
+      annot_col, data$.[[annot_col]])
     } else {
       # Find the first column containing "popup"
       popup_col <- names(.data$.)[grepl("popup", names(.data$.))][1]
       # Copy the content of the popup column to popup_text
-      .[[popup_col]]
+      data$.[[popup_col]]
     }
     )
   # Map data

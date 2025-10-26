@@ -14,7 +14,7 @@
 #' @import scales
 #' @description Modify Existing Timeline Plot Formatting
 #' @details This function modifes an existing timeline plot created using geom_timeline() of significant earthquake
-#' data from NOAA's significant eathquake database (url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}).
+#' data from NOAA's significant eathquake database (\url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}).
 #' The base plot should already exist. This function allows for consistent plot formatting.
 #'
 #' @param df cleaned data frame of earthquake data
