@@ -8,6 +8,10 @@
 [![R-CMD-check](https://github.com/ELW-courses/significantEarthquakes/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ELW-courses/significantEarthquakes/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![License: GPL
+v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+![Coursera](https://img.shields.io/badge/Coursera-%230056D2.svg?style=for-the-badge&logo=Coursera&logoColor=white)
 <!-- badges: end -->
 
 The **significantEarthquakes** package was developed for the capstone
