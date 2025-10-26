@@ -116,3 +116,19 @@ Argentina_data %>%
   geom_timeline(aes(x = Date, color = Magnitude)) +
   geom_timeline(aes(x = Date, size = Magnitude), n_max = 10)
 ```
+
+## Earthquake mapping
+
+Significant earthquakes can be mapped to show where earthquakes occurred
+by using `eq_map()`. This function requires that earthquake data be
+cleaned using `eq_clean_data()` and `eq_location_clean` so that at
+minimum location columns (Latitude and Longitude) and any annotation
+columns are present. The column to annotate by can be specified using
+*annot_col*.
+
+``` r
+eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
+ eq_location_clean() %>%
+ dplyr::filter(Country == "Mexico" & Date >= 2000) %>%
+ eq_map(annot_col = "Date")
+```

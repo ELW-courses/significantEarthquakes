@@ -39,8 +39,8 @@ a layer containing a `Geom*` object responsible for rendering the point-style gr
 geom_timeline plots a timeline of significant earthquakes
 }
 \details{
-The graphic is a point-style plot showing significant earthquakes data orginating from the NOAA database
-(url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}.) Earthquake data should be cleaned, and may be
+The graphic is a point-style plot showing significant earthquakes data originating from the NOAA database
+(url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}). Earthquake data should be cleaned, and may be
 filtered, to a specified date range or country. Earthquakes can be stratified by a factor variable, and points can
 be formatted by color, point size, or alpha level based on user-specified data columns.
 }
