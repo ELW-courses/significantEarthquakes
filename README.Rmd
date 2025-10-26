@@ -127,7 +127,7 @@ eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
  dplyr::filter(Country == "Mexico" & Date >= 2000) %>%
  eq_map(annot_col = "Date")
 ```
-![Example static image of earthquakes in Mexico since 2000](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Mexico_leaflet_example.png?raw=true)
+![Example static image of earthquakes in Mexico since 2000.](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Mexico_leaflet_example.png?raw=true)
 
 ``` r
 eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
@@ -135,4 +135,24 @@ eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
  dplyr::filter(Country == "Argentina") %>%
  eq_map(annot_col = "Date")
 ```
-![Example static image of earthquakes in Argentina](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_leaflet_example.png?raw=true)
+![Example static image of earthquakes in Argentina.](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_leaflet_example.png?raw=true)
+
+A quick pop up containing location name, earthquake magnitude, and total number of deaths can be created by using `eq_create_label()` on cleaned data.
+
+``` r
+eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
+ eq_location_clean() %>%
+ dplyr::filter(Country == "Mexico" & Date >= 2000) %>%
+ dplyr::mutate(popup = eq_create_label(.)) %>%
+ eq_map(annot_col = "popup")
+```
+![Example static image of earthquakes in Mexico since 2000 with pop up containing location of occurrance, earthquake magnitude, and total number of deaths.](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Mexico_leaflet_modified.png?raw=true)
+
+``` r
+eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
+ eq_location_clean() %>%
+ dplyr::filter(Country == "Argentina") %>%
+ dplyr::mutate(popup = eq_create_label(.)) %>%
+ eq_map(annot_col = "popup")
+```
+![Example static image of earthquakes in Argentina with pop up containing location of occurrance, earthquake magnitude, and total number of deaths.](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_leaflet_modified.png?raw=true)

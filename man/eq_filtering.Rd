@@ -34,6 +34,9 @@ This function takes a cleaned earthquake data set and filters data to optional d
 of occurrence. A Locale column and the Magnitude column is included in the output An optional 'groupingBy'
 parameter allows for the additional selection of specified data columns in output.
 }
+\note{
+Filtering function should only be used for producing timeline figures, not leaflet maps created using eq_map()
+}
 \examples{
 \dontrun{
 # Selection of earthquakes within Argentina

@@ -159,9 +159,9 @@ eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
 <figure>
 <img
 src="https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Mexico_leaflet_example.png?raw=true"
-alt="Example static image of earthquakes in Mexico since 2000" />
+alt="Example static image of earthquakes in Mexico since 2000." />
 <figcaption aria-hidden="true">Example static image of earthquakes in
-Mexico since 2000</figcaption>
+Mexico since 2000.</figcaption>
 </figure>
 
 ``` r
@@ -174,7 +174,45 @@ eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
 <figure>
 <img
 src="https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_leaflet_example.png?raw=true"
-alt="Example static image of earthquakes in Argentina" />
+alt="Example static image of earthquakes in Argentina." />
 <figcaption aria-hidden="true">Example static image of earthquakes in
-Argentina</figcaption>
+Argentina.</figcaption>
+</figure>
+
+A quick pop up containing location name, earthquake magnitude, and total
+number of deaths can be created by using `eq_create_label()` on cleaned
+data.
+
+``` r
+eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
+ eq_location_clean() %>%
+ dplyr::filter(Country == "Mexico" & Date >= 2000) %>%
+ dplyr::mutate(popup = eq_create_label(.)) %>%
+ eq_map(annot_col = "popup")
+```
+
+<figure>
+<img
+src="https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Mexico_leaflet_modified.png?raw=true"
+alt="Example static image of earthquakes in Mexico since 2000 with pop up containing location of occurrance, earthquake magnitude, and total number of deaths." />
+<figcaption aria-hidden="true">Example static image of earthquakes in
+Mexico since 2000 with pop up containing location of occurrance,
+earthquake magnitude, and total number of deaths.</figcaption>
+</figure>
+
+``` r
+eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
+ eq_location_clean() %>%
+ dplyr::filter(Country == "Argentina") %>%
+ dplyr::mutate(popup = eq_create_label(.)) %>%
+ eq_map(annot_col = "popup")
+```
+
+<figure>
+<img
+src="https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_leaflet_modified.png?raw=true"
+alt="Example static image of earthquakes in Argentina with pop up containing location of occurrance, earthquake magnitude, and total number of deaths." />
+<figcaption aria-hidden="true">Example static image of earthquakes in
+Argentina with pop up containing location of occurrance, earthquake
+magnitude, and total number of deaths.</figcaption>
 </figure>

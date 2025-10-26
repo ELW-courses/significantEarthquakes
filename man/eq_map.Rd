@@ -28,6 +28,7 @@ in a popup for the earthquake points.
 eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") \%>\%
   eq_location_clean() \%>\%
   dplyr::filter(Country == "Mexico" & Date >= 2000) \%>\%
-  eq_map(annot_col = "Date")
+  dplyr::mutate(popup = eq_create_label(.)) \%>\%
+  eq_map(annot_col = "popup")
 }
 }
