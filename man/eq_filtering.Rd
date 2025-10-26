@@ -40,12 +40,15 @@ Filtering function should only be used for producing timeline figures, not leafl
 \examples{
 \dontrun{
 # Selection of earthquakes within Argentina
-Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina")
+Argentina_data <- eq_filtering(quake_data,
+ SelectedCountry = "Argentina")
 
 # Selection of earthquakes within Argentina since 1930
-Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", MinDate = "1930-01-01")
+Argentina_data <- eq_filtering(quake_data,
+ SelectedCountry = "Argentina", MinDate = "1930-01-01")
 
 # Selection of earthquakes within Argentina with magnitude
-Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", groupingBy = c("Magnitude"))
+Argentina_data <- eq_filtering(quake_data,
+ SelectedCountry = "Argentina", groupingBy = c("Magnitude"))
 }
 }

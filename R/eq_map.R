@@ -51,7 +51,7 @@ eq_map <- function(df, annot_col){
         str_detect(.x, regex("long", ignore_case = TRUE)) ~ "longitude",
         TRUE ~ .x
       )) %>%
-    dplyr::mutate(popup_text = if(!any(grepl("popup", names(.)))){
+    dplyr::mutate(popup_text = if(!any(grepl("popup", names(.data$.)))){
       sprintf(
       '<div style="padding: 8px; font-family: Arial, sans-serif;">
       <span style="font-size: 13px; font-weight: bold;">%s:</span>&nbsp;
@@ -60,7 +60,7 @@ eq_map <- function(df, annot_col){
       annot_col, .[[annot_col]])
     } else {
       # Find the first column containing "popup"
-      popup_col <- names(.)[grepl("popup", names(.))][1]
+      popup_col <- names(.data$.)[grepl("popup", names(.data$.))][1]
       # Copy the content of the popup column to popup_text
       .[[popup_col]]
     }

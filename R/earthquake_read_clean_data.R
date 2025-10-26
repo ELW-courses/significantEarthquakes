@@ -53,16 +53,16 @@ eq_clean_data <- function(filepath = NA, df = NA){
   #
   eq_data <- eq_data %>%
     # Create Date from modified year (Yr), making note of age
-    dplyr::mutate(Yr = as.numeric(ifelse(Year < 0, Year *-1, Year)),
-                  Age = as.factor(ifelse(Year < 0, "BC", "AD")),
-                  Date = paste(Yr, ifelse(is.na(Mo), 01, Mo), ifelse(is.na(Dy), 01, Dy), sep = "-"), .before = Year) %>%
-    dplyr::mutate(Date = as.Date(Date, format = "%Y-%m-%d")) %>%
+    dplyr::mutate(Yr = as.numeric(ifelse(.data$Year < 0, .data$Year *-1, .data$Year)),
+                  Age = as.factor(ifelse(.data$Year < 0, "BC", "AD")),
+                  Date = paste(.data$Yr, ifelse(is.na(.data$Mo), 01, .data$Mo), ifelse(is.na(.data$Dy), 01, .data$Dy), sep = "-"), .before = .data$Year) %>%
+    dplyr::mutate(Date = as.Date(.data$Date, format = "%Y-%m-%d")) %>%
     # Remove Yr column, remove any odd columns due to loading
-    dplyr::select(-Yr) %>%
-    filter(!is.na(Date)) %>%
+    dplyr::select(-.data$Yr) %>%
+    filter(!is.na(.data$Date)) %>%
     # Rename columns for clarity
-    rename("Month" = Mo, "Day" = Dy, "Hour" = Hr,  "Minute" = Mn, "Seconds" = Sec,
-           "Tsunami" = Tsu, "volcano" = Vol, "Magnitude" = Mag) %>% # Set column types
+    rename("Month" = .data$Mo, "Day" = .data$Dy, "Hour" = .data$Hr,  "Minute" = .data$Mn, "Seconds" = .data$Sec,
+           "Tsunami" = .data$Tsu, "volcano" = .data$Vol, "Magnitude" = .data$Mag) %>% # Set column types
     dplyr::mutate(across(any_of(c("Latitude", "Longitude")), ~as.numeric(as.character(.))))
   #
   return(eq_data)
@@ -143,13 +143,16 @@ eq_location_clean <- function(df){
 #' @examples
 #' \dontrun{
 #' # Selection of earthquakes within Argentina
-#' Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina")
+#' Argentina_data <- eq_filtering(quake_data,
+#'  SelectedCountry = "Argentina")
 #'
 #' # Selection of earthquakes within Argentina since 1930
-#' Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", MinDate = "1930-01-01")
+#' Argentina_data <- eq_filtering(quake_data,
+#'  SelectedCountry = "Argentina", MinDate = "1930-01-01")
 #'
 #' # Selection of earthquakes within Argentina with magnitude
-#' Argentina_data <- eq_filtering(quake_data, SelectedCountry = "Argentina", groupingBy = c("Magnitude"))
+#' Argentina_data <- eq_filtering(quake_data,
+#'  SelectedCountry = "Argentina", groupingBy = c("Magnitude"))
 #' }
 #' @export
 #'
@@ -184,7 +187,7 @@ eq_filtering <- function(df, MinDate = NULL, MaxDate = NULL, SelectedCountry = N
   ## Clean data to plot
   data_to_plot <- df %>%
     # Select date and columns to plot by
-    dplyr::select(Date, Country, Locale, Magnitude, any_of(groupingBy)) %>%
+    dplyr::select(Date, .data$Country, .data$Locale, .data$Magnitude, any_of(groupingBy)) %>%
     # Filter to specified date range and country
     filter(Date >= min_date & Date <= max_date) %>%
     filter(if(!is.null(SelectedCountry)){

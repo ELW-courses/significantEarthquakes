@@ -42,8 +42,8 @@ pretty_timeline <- function(df, plot, timeline_y = FALSE){
     summarise(minDate = min(Date),
               maxDate = max(Date)) %>%
     # Round to nearest month
-    mutate(minDate = lubridate::floor_date(minDate, "month"),
-           maxDate = lubridate::ceiling_date(maxDate, "month"))
+    mutate(minDate = lubridate::floor_date(.data$minDate, "month"),
+           maxDate = lubridate::ceiling_date(.data$maxDate, "month"))
   #
   # Both plots
   base_plot <- plot +
