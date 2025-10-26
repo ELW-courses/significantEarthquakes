@@ -14,7 +14,7 @@
 #' @importFrom htmltools HTML
 #' @description Create Leaflet Map of Earthquake Data
 #' @details This function creates a leaflef map of cleaned significant earthquake data from  NOAA's significant
-#' eathquake database (url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}). Data should be cleaned
+#' eathquake database (\url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}). Data should be cleaned
 #' using eq_clean_data() and eq_location_clean() for best usage. An annotation column can be specified for including
 #' in a popup for the earthquake points.
 #'

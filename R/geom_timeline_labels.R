@@ -11,7 +11,7 @@
 #' @import ggplot2
 #' @description geom_timeline_labels adds a label to a timeline of significant earthquakes
 #' @details The graphic is a text-style plot adding labels to points of a significant earthquakes timeline plot using
-#' data orginating from the NOAA database (url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}.) Labels
+#' data orginating from the NOAA database (\url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}.) Labels
 #' require for size = Magnitude to be specified.
 #'
 #' @param mapping aesthetics mapping

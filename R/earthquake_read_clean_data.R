@@ -111,7 +111,7 @@ eq_location_clean <- function(df){
     mutate(Locale = case_when(
       Country == "United States" ~ str_trim(sub(":.*", replacement = "", !!sym(matching_column))),
       TRUE ~ str_trim(str_extract(!!sym(matching_column), "(?<=:).+"))), .before = !!sym(matching_column)) %>%
-    mutate(Country = stringr::str_to_title(Country), Locale = str_to_title(Locale))
+    mutate(Country = stringr::str_to_title(.data$Country), Locale = str_to_title(.data$Locale))
   return(df)
 }
 #
@@ -191,7 +191,7 @@ eq_filtering <- function(df, MinDate = NULL, MaxDate = NULL, SelectedCountry = N
     # Filter to specified date range and country
     filter(Date >= min_date & Date <= max_date) %>%
     filter(if(!is.null(SelectedCountry)){
-      Country == paste(stringr::str_to_title(SelectedCountry))
+      .data$Country == paste(stringr::str_to_title(SelectedCountry))
     } else {
       TRUE
     }) %>%
