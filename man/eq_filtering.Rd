@@ -31,7 +31,8 @@ Filter Earthquake Data to Desired Country and Data Columns
 }
 \details{
 This function takes a cleaned earthquake data set and filters data to optional date ranges and country
-of occurrence. An optional 'groupingBy' parameter allows for the selection of specified data columns in output.
+of occurrence. A Locale column and the Magnitude column is included in the output An optional 'groupingBy'
+parameter allows for the additional selection of specified data columns in output.
 }
 \examples{
 \dontrun{

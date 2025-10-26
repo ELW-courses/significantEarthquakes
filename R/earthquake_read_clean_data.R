@@ -122,7 +122,8 @@ eq_location_clean <- function(df){
 #' @import stringr
 #' @description Filter Earthquake Data to Desired Country and Data Columns
 #' @details This function takes a cleaned earthquake data set and filters data to optional date ranges and country
-#' of occurrence. An optional 'groupingBy' parameter allows for the selection of specified data columns in output.
+#' of occurrence. A Locale column and the Magnitude column is included in the output An optional 'groupingBy'
+#' parameter allows for the additional selection of specified data columns in output.
 #'
 #'
 #' @param df data frame containing earthquake data
@@ -180,7 +181,7 @@ eq_filtering <- function(df, MinDate = NULL, MaxDate = NULL, SelectedCountry = N
   ## Clean data to plot
   data_to_plot <- df %>%
     # Select date and columns to plot by
-    dplyr::select(Date, Country, Locale, any_of(groupingBy)) %>%
+    dplyr::select(Date, Country, Locale, Magnitude, any_of(groupingBy)) %>%
     # Filter to specified date range and country
     filter(Date >= min_date & Date <= max_date) %>%
     filter(if(!is.null(SelectedCountry)){
