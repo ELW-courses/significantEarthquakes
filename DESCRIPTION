@@ -23,10 +23,11 @@ Depends:
     tidyverse
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Imports: 
-    devtools (>= 2.4.0),
+    devtools,
     dplyr,
     ggplot2,
     htmltools,
@@ -38,3 +39,4 @@ Imports:
     scales,
     stringr,
     tidyr
+Config/testthat/edition: 3
