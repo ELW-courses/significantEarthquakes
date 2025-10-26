@@ -137,6 +137,9 @@ eq_location_clean <- function(df){
 #' @param groupingBy optional list of other data columns to include
 #'
 #' @return tibble of filtered earthquake data
+#'
+#' @note Filtering function should only be used for producing timeline figures, not leaflet maps created using eq_map()
+#'
 #' @examples
 #' \dontrun{
 #' # Selection of earthquakes within Argentina
