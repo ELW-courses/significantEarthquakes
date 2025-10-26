@@ -104,7 +104,7 @@ Argentina_data %>%
   geom_timeline(aes(x = Date, size = Magnitude))
 ```
 
-Text lables can be added to the timeline plot by uding
+Text lables can be added to the timeline plot by using
 `geom_timeline_labels()`. This `geom_*` requires the column to use for
 labels to be specfied. A maximum number of earthquakes to label based on
 magnitude can be set as long as the size aesthetic is set to Magnitude.
@@ -116,6 +116,29 @@ Argentina_data %>%
   geom_timeline(aes(x = Date, color = Magnitude)) +
   geom_timeline(aes(x = Date, size = Magnitude), n_max = 10)
 ```
+
+A additional function has been supplied for assitance in consistent
+formatting of timeline plots. Once an existing plot is created,
+`pretty_timeline()` can be used to format axes titles and text and scale
+axes based on data plotted.
+
+``` r
+quake_data <- eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
+  eq_location_clean() %>% 
+  eq_filtering(SelectedCountry = "Argentina", MinDate = "1930-01-01")
+
+ArgPlot <- quake_data %>%
+  ggplot() +
+  geom_timeline(aes(x = Date, color = Magnitude))
+```
+
+![](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_timeline.png?raw=true)
+
+``` r
+pretty_timeline(df = quake_data, plot = ArgPlot, timeline_y = TRUE)
+```
+
+![](https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_timeline_pretty.png?raw=true)
 
 ## Earthquake mapping
 
@@ -132,3 +155,26 @@ eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
  dplyr::filter(Country == "Mexico" & Date >= 2000) %>%
  eq_map(annot_col = "Date")
 ```
+
+<figure>
+<img
+src="https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Mexico_leaflet_example.png?raw=true"
+alt="Example static image of earthquakes in Mexico since 2000" />
+<figcaption aria-hidden="true">Example static image of earthquakes in
+Mexico since 2000</figcaption>
+</figure>
+
+``` r
+eq_clean_data(filepath = "inst/extdata/earthquakes.tsv") %>%
+ eq_location_clean() %>%
+ dplyr::filter(Country == "Argentina") %>%
+ eq_map(annot_col = "Date")
+```
+
+<figure>
+<img
+src="https://github.com/ELW-courses/significantEarthquakes/blob/main/man/figures/Argentina_leaflet_example.png?raw=true"
+alt="Example static image of earthquakes in Argentina" />
+<figcaption aria-hidden="true">Example static image of earthquakes in
+Argentina</figcaption>
+</figure>
