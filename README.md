@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/ELW-courses/significantEarthquakes/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ELW-courses/significantEarthquakes/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The **significantEarthquakes** package was developed for the capstone
