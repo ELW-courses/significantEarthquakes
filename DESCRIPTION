@@ -26,7 +26,7 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Imports: 
-    devtools,
+    devtools (>= 2.4.0),
     dplyr,
     ggplot2,
     htmltools,
@@ -36,4 +36,5 @@ Imports:
     maps,
     readr,
     scales,
-    stringr
+    stringr,
+    tidyr
