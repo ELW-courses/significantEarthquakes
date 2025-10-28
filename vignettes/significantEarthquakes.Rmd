@@ -22,11 +22,6 @@ You can load this package after install using the following command:
 library(significantEarthquakes)
 ```
 
-```{r, echo = FALSE}
-library(tidyverse)
-```
-
-
 # Package description
 
 The **significantEarthquakes** package provides functionality to work with earthquake data originating from the National Oceanic and Atmospheric Administration's earthquakes database: 
