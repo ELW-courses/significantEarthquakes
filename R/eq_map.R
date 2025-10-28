@@ -9,8 +9,8 @@
 
 #' @title eq_map
 #' @import leaflet
-#' @import magrittr
-#' @importFrom dplyr mutate
+#' @import dplyr
+#' @import stringr
 #' @importFrom htmltools HTML
 #' @description Create Leaflet Map of Earthquake Data
 #' @details This function creates a leaflef map of cleaned significant earthquake data from  NOAA's significant
