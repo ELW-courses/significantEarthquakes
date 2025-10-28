@@ -8,7 +8,7 @@
 ########################################################################
 
 #' @title eq_clean_data
-#' @import readr
+#' @importFrom readr read_delim
 #' @import dplyr
 #' @description Load and Clean Earthquake Data
 #' @details This function takes either a file path with file name or already loaded data frame object. If a file path
@@ -72,7 +72,7 @@ eq_clean_data <- function(filepath = NA, df = NA){
 #
 #
 #' @title eq_location_clean
-#' @import tidyverse
+#' @import dplyr
 #' @import stringr
 #' @import maps
 #' @description Addition of Country to Earthquake Data
@@ -118,7 +118,8 @@ eq_location_clean <- function(df){
 #
 #
 #' @title eq_filtering
-#' @import tidyverse
+#' @import dplyr
+#' @import tidyr
 #' @import stringr
 #' @description Filter Earthquake Data to Desired Country and Data Columns
 #' @details This function takes a cleaned earthquake data set and filters data to optional date ranges and country

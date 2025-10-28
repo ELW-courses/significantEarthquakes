@@ -82,6 +82,7 @@ geom_timeline_labels <- function(mapping = NULL,
 
 #' @title GeomTimelineLabels
 #' @import ggplot2
+#' @import dplyr
 #' @importFrom grid segmentsGrob pointsGrob gpar
 #'
 #' @param GeomTimelineLabels `Geom*` name created to add lables to earthquake data
